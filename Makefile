@@ -90,7 +90,7 @@ LD_FLAGS += -X '$(version_pkg).BuildDate=$(shell date -u +%Y-%m-%dT%H:%M:%SZ)'
 
 # Update these variables when preparing a new release or a release branch.
 # Then run `make prepare-release-branch`
-RELEASE_VERSION=v0.16.3
+RELEASE_VERSION=v0.16.4
 RELEASE_BRANCH=main
 # Application version for Helm and npm (strips leading 'v' from RELEASE_VERSION)
 APP_VERSION := $(shell echo $(RELEASE_VERSION) | cut -c2-)
@@ -162,7 +162,7 @@ generate-mocks: mockgen ## Generate mockgen mocks
 		-destination=$(MOCKS_DIR)/controller/jobframework/interface.go \
 		-copyright_file hack/boilerplate.txt \
 		-package mocks \
-		sigs.k8s.io/kueue/pkg/controller/jobframework GenericJob,JobWithCustomValidation,JobWithManagedBy,JobWithCustomWorkloadActivation
+		sigs.k8s.io/kueue/pkg/controller/jobframework GenericJob,JobWithCustomValidation,JobWithManagedBy,JobWithCustomWorkloadActivation,JobWithCustomAnnotations
 
 .PHONY: fmt
 fmt: ## Run go fmt against code.

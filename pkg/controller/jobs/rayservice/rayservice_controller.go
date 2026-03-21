@@ -118,6 +118,7 @@ func (r *rayServiceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 type RayService rayv1.RayService
 
 var _ jobframework.GenericJob = (*RayService)(nil)
+var _ jobframework.JobWithCustomAnnotations = (*RayService)(nil)
 var _ jobframework.JobWithManagedBy = (*RayService)(nil)
 
 func (j *RayService) Object() client.Object {
@@ -198,6 +199,20 @@ func (j *RayService) Finished(ctx context.Context) (message string, success, fin
 	return message, success, finished
 }
 
+func (j *RayService) CanDefaultManagedBy() bool {
+	jobSpecManagedBy := j.Spec.ManagedBy
+	return features.Enabled(features.MultiKueue) &&
+		(jobSpecManagedBy == nil || *jobSpecManagedBy == rayutils.KubeRayController)
+}
+
+func (j *RayService) ManagedBy() *string {
+	return j.Spec.ManagedBy
+}
+
+func (j *RayService) SetManagedBy(managedBy *string) {
+	j.Spec.ManagedBy = managedBy
+}
+
 func (j *RayService) PodsReady(ctx context.Context) bool {
 	return meta.IsStatusConditionTrue(j.Status.Conditions, string(rayv1.RayServiceReady))
 }
@@ -214,6 +229,8 @@ func (j *RayService) ManagedBy() *string {
 
 func (j *RayService) SetManagedBy(managedBy *string) {
 	j.Spec.ManagedBy = managedBy
+func (j *RayService) GetCustomAnnotations(ctx context.Context, c client.Client, podSets []kueue.PodSet) (map[string]string, error) {
+	return jobframework.GetWorkloadslicingCustomAnnotations(j.Object(), podSets)
 }
 
 func SetupIndexes(ctx context.Context, indexer client.FieldIndexer) error {

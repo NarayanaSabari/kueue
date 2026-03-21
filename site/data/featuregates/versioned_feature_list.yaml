@@ -11,6 +11,12 @@
     lockToDefault: false
     preRelease: Beta
     version: "0.15"
+- name: AdmissionGatedBy
+  versionedSpecs:
+  - default: false
+    lockToDefault: false
+    preRelease: Alpha
+    version: "0.17"
 - name: AssignQueueLabelsForPods
   versionedSpecs:
   - default: true
@@ -18,6 +24,12 @@
     preRelease: Beta
     version: "0.17"
 - name: CustomMetricLabels
+  versionedSpecs:
+  - default: false
+    lockToDefault: false
+    preRelease: Alpha
+    version: "0.17"
+- name: DRAExtendedResources
   versionedSpecs:
   - default: false
     lockToDefault: false
@@ -169,6 +181,12 @@
     lockToDefault: false
     preRelease: Alpha
     version: "0.15"
+- name: MultiKueueOrchestratedPreemption
+  versionedSpecs:
+  - default: false
+    lockToDefault: false
+    preRelease: Alpha
+    version: "0.17"
 - name: MultiKueueRedoAdmissionOnEvictionInWorker
   versionedSpecs:
   - default: true
@@ -205,6 +223,12 @@
     lockToDefault: false
     preRelease: Beta
     version: "0.5"
+- name: PriorityBoost
+  versionedSpecs:
+  - default: false
+    lockToDefault: false
+    preRelease: Alpha
+    version: "0.17"
 - name: PrioritySortingWithinCohort
   versionedSpecs:
   - default: true
@@ -257,7 +281,7 @@
     version: "0.17"
 - name: SchedulingEquivalenceHashing
   versionedSpecs:
-  - default: true
+  - default: false
     lockToDefault: false
     preRelease: Beta
     version: "0.17"
@@ -267,6 +291,12 @@
     lockToDefault: false
     preRelease: Beta
     version: "0.16"
+- name: SparkApplicationIntegration
+  versionedSpecs:
+  - default: false
+    lockToDefault: false
+    preRelease: Alpha
+    version: "0.17"
 - name: TASBalancedPlacement
   versionedSpecs:
   - default: false

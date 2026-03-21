@@ -122,6 +122,7 @@ type RayJob rayv1.RayJob
 var _ jobframework.GenericJob = (*RayJob)(nil)
 var _ jobframework.JobWithManagedBy = (*RayJob)(nil)
 var _ jobframework.JobWithSkip = (*RayJob)(nil)
+var _ jobframework.JobWithCustomAnnotations = (*RayJob)(nil)
 
 func (j *RayJob) Object() client.Object {
 	return (*rayv1.RayJob)(j)
@@ -242,6 +243,10 @@ func (j *RayJob) Finished(ctx context.Context) (message string, success, finishe
 
 func (j *RayJob) PodsReady(ctx context.Context) bool {
 	return j.Status.RayClusterStatus.State == rayv1.Ready
+}
+
+func (j *RayJob) GetCustomAnnotations(ctx context.Context, c client.Client, podSets []kueue.PodSet) (map[string]string, error) {
+	return jobframework.GetWorkloadslicingCustomAnnotations(j.Object(), podSets)
 }
 
 func SetupIndexes(ctx context.Context, indexer client.FieldIndexer) error {

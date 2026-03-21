@@ -174,8 +174,15 @@ const (
 	// owner: @alaypatel07
 	// kep: https://github.com/kubernetes-sigs/kueue/tree/main/keps/2941-DRA
 	//
-	// Enable quota accounting for Dynamic Resource Allocation (DRA) devies in workloads
+	// Enable quota accounting for Dynamic Resource Allocation (DRA) devices in workloads
 	DynamicResourceAllocation featuregate.Feature = "DynamicResourceAllocation"
+
+	// owner: @sohankunkerkar
+	// kep: https://github.com/kubernetes-sigs/kueue/tree/main/keps/2941-DRA
+	//
+	// Enable extended resources support for DRA. Allows workloads to request DRA devices
+	// via standard resources.requests using DeviceClass extendedResourceName.
+	DRAExtendedResources featuregate.Feature = "DRAExtendedResources"
 
 	// owner: @khrm
 	// kep: https://github.com/kubernetes-sigs/kueue/tree/main/keps/2349-multikueue-external-custom-job-support
@@ -301,6 +308,33 @@ const (
 	//
 	// Enable custom metadata labels on Kueue metrics
 	CustomMetricLabels featuregate.Feature = "CustomMetricLabels"
+
+	// owner: @everpeace
+	//
+	// pr: https://github.com/kubernetes-sigs/kueue/pull/7268#issuecomment-3890609376
+	// Enables the Kubeflow's SparkApplication integration
+	SparkApplicationIntegration featuregate.Feature = "SparkApplicationIntegration"
+
+	// owner: @kshalot
+	//
+	// issue: https://github.com/kubernetes-sigs/kueue/issues/8303
+	// Enables preemption orchestration in MultiKueue worker clusters, preventing
+	// concurrent preemptions causing disruptions to other workloads.
+	MultiKueueOrchestratedPreemption featuregate.Feature = "MultiKueueOrchestratedPreemption"
+
+	// owner: @vladikkuzn
+	// kep: https://github.com/kubernetes-sigs/kueue/tree/main/keps/7990-preemption-cost
+	//
+	// Enable priority boost via the kueue.x-k8s.io/priority-boost annotation,
+	// allowing external controllers to adjust a workload's effective priority.
+	PriorityBoost featuregate.Feature = "PriorityBoost"
+
+	// owner: @VassilisVassiliadis
+	//
+	// kep: https://github.com/kubernetes-sigs/kueue/tree/main/keps/6915-scheduling-gated-by-annotation
+	//
+	// Enables gating the admission of workloads based on annotations.
+	AdmissionGatedBy featuregate.Feature = "AdmissionGatedBy"
 )
 
 func init() {
@@ -405,6 +439,9 @@ var defaultVersionedFeatureGates = map[featuregate.Feature]featuregate.Versioned
 	DynamicResourceAllocation: {
 		{Version: version.MustParse("0.14"), Default: false, PreRelease: featuregate.Alpha},
 	},
+	DRAExtendedResources: {
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
+	},
 	MultiKueueAdaptersForCustomJobs: {
 		{Version: version.MustParse("0.14"), Default: false, PreRelease: featuregate.Alpha},
 		{Version: version.MustParse("0.15"), Default: true, PreRelease: featuregate.Beta},
@@ -459,7 +496,7 @@ var defaultVersionedFeatureGates = map[featuregate.Feature]featuregate.Versioned
 		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
 	},
 	SchedulingEquivalenceHashing: {
-		{Version: version.MustParse("0.17"), Default: true, PreRelease: featuregate.Beta},
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Beta},
 	},
 	SchedulerLongRequeueInterval: {
 		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha}, // remove in 0.20
@@ -468,6 +505,18 @@ var defaultVersionedFeatureGates = map[featuregate.Feature]featuregate.Versioned
 		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha}, // remove in 0.20
 	},
 	CustomMetricLabels: {
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
+	},
+	SparkApplicationIntegration: {
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
+	},
+	MultiKueueOrchestratedPreemption: {
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
+	},
+	PriorityBoost: {
+		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
+	},
+	AdmissionGatedBy: {
 		{Version: version.MustParse("0.17"), Default: false, PreRelease: featuregate.Alpha},
 	},
 }
